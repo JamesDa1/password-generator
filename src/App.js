@@ -63,6 +63,7 @@ function App() {
   }
   useEffect(() => {
     chooseCharacterSet()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [includeUpperCase, includeLowerCase, includeNumbers, includeSymbols])
 
   return (
