@@ -26,24 +26,19 @@ function App() {
   const [includeSymbols, setIncludeSymbols] = useState(false)
 
   let validCharacters = ""
-  let simplifiedStrength = 0
 
   const chooseCharacterSet = () => {
     if (includeUpperCase) {
       validCharacters += upperCase
-      simplifiedStrength += 1
     }
     if (includeLowerCase) {
       validCharacters += lowerCase
-      simplifiedStrength += 1
     }
     if (includeNumbers) {
       validCharacters += numbers
-      simplifiedStrength += 1
     }
     if (includeSymbols) {
       validCharacters += symbols
-      simplifiedStrength += 1
     }
   }
 
@@ -63,7 +58,7 @@ function App() {
       textField.textContent = password
       return password
     } else {
-      textField.textContent = "Select characters"
+      textField.textContent = "Select a charSet"
     }
   }
   useEffect(() => {
