@@ -1,8 +1,10 @@
+import { useState, useEffect } from "react"
+import ReactSlider from "react-slider"
+
 import "./App.css"
-// import ReactSlider from "react-slider"
-import Chevron from "./components.js/Chevron"
-import { useState, useEffect, useRef } from "react"
-import CopyIcon from "./components.js/CopyIcon"
+import "./components/Slider.css"
+import Chevron from "./components/Chevron"
+import CopyIcon from "./components/CopyIcon"
 
 const alpha = Array.from(Array(26)).map((e, i) => i + 65)
 const lowerCase = alpha
@@ -15,55 +17,64 @@ const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].join("")
 const symbols = "!@#$%^&*"
 
 function App() {
+  const textField = document.querySelector("#passwordSuggestion")
+  const [passwordLength, setPasswordLength] = useState(8)
+
   const [includeLowerCase, setIncludeLowerCase] = useState(false)
   const [includeUpperCase, setIncludeUpperCase] = useState(false)
   const [includeNumbers, setIncludeNumbers] = useState(false)
   const [includeSymbols, setIncludeSymbols] = useState(false)
 
-  const passwordLength = 10
-
   let validCharacters = ""
+  let simplifiedStrength = 0
 
   const chooseCharacterSet = () => {
     if (includeUpperCase) {
       validCharacters += upperCase
+      simplifiedStrength += 1
     }
     if (includeLowerCase) {
       validCharacters += lowerCase
+      simplifiedStrength += 1
     }
     if (includeNumbers) {
       validCharacters += numbers
+      simplifiedStrength += 1
     }
     if (includeSymbols) {
       validCharacters += symbols
+      simplifiedStrength += 1
     }
-    console.log(validCharacters)
+  }
+
+  const copyPassword = () => {
+    const password = textField.textContent
+    navigator.clipboard.writeText(password)
+    textField.textContent = "Copied to clipboard"
   }
 
   const generatePassword = () => {
-    const textField = document.querySelector("#passwordSuggestion")
-    console.log(textField)
     if (validCharacters) {
       let password = ""
       for (let i = 0; i < passwordLength; i++) {
         const randomNumber = Math.floor(Math.random() * validCharacters.length)
         password += validCharacters[randomNumber]
       }
-      console.log(password)
+      textField.textContent = password
       return password
     } else {
-      console.log("Please enable a character set")
+      textField.textContent = "Select characters"
     }
   }
-  const ref = useRef(null)
   useEffect(() => {
     chooseCharacterSet()
   }, [includeUpperCase, includeLowerCase, includeNumbers, includeSymbols])
+
   return (
     <div className="App">
       <h1>Password Generator</h1>
-      <div className="password">
-        <p className="passwordSuggestion" ref={ref}>
+      <div className="password" onClick={() => copyPassword()}>
+        <p className="passwordSuggestion" id={"passwordSuggestion"}>
           P4$5W0rD!
         </p>
         <CopyIcon />
@@ -73,8 +84,32 @@ function App() {
           <p>Character Length</p>
           <span>{passwordLength}</span>
         </article>
-        <article style={{ textAlign: "center", marginBlock: "1rem" }}>
-          <h2>SLIDER GOES HERE</h2>
+        <article>
+          <div>
+            <ReactSlider
+              className="customSlider"
+              thumbClassName="customSlider-thumb"
+              trackClassName="customSlider-track"
+              markClassName="customSlider-mark"
+              marks={20}
+              min={8}
+              max={20}
+              valueLabelDisplay="on"
+              defaultValue={0}
+              value={passwordLength}
+              onChange={(value) => {
+                setPasswordLength(value)
+              }}
+              renderMark={(props) => {
+                if (props.key < passwordLength) {
+                  props.className = "customSlider-mark customSlider-mark-before"
+                } else if (props.key === passwordLength) {
+                  props.className = "customSlider-mark customSlider-mark-active"
+                }
+                return <span {...props} />
+              }}
+            />
+          </div>
         </article>
         <article className="checkboxes">
           <input

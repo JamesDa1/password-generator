@@ -33,11 +33,13 @@ body {
   color: white;
   /* padding-block: 2rem; */
   margin-block: 2rem;
+  margin-top: 4rem;
 }
 
 h1 {
   font-size: 1.5rem;
   padding-bottom: 0.375rem;
+  color: var(--grey);
 }
 
 .password {
@@ -48,19 +50,16 @@ h1 {
   height: 4rem;
   padding-inline: 1rem;
   width: 95%;
+  cursor: pointer;
 }
 
 .password p {
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: var(--almostWhite);
 }
 .password svg {
   width: 2rem;
   stroke: var(--neonGreen);
-}
-
-.password svg:hover {
-  cursor: pointer;
 }
 
 .length {
@@ -87,8 +86,8 @@ span {
 
 .checkboxes {
   padding-inline: 1rem;
-  margin-bottom: 1rem;
-  margin-block: 1rem;
+  /* margin-bottom: 1rem; */
+  margin-block: 1.5rem;
 }
 
 .checkboxes input {
@@ -111,6 +110,7 @@ span {
   background-color: var(--veryDarkGrey);
   padding-inline: 1rem;
   height: 4.5rem;
+  margin-block: 2rem;
 }
 
 .evaluatePassword p {
